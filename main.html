@@ -5,6 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ZAYN - T-Shirt Oversize Premuim </title>
     
+    <!-- Facebook Pixel Code -->
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '2106088266596862');
+      fbq('track', 'PageView');
+    </script>
+    <noscript>
+      <img height="1" width="1" style="display:none" 
+           src="https://www.facebook.com/tr?id=2106088266596862&ev=PageView&noscript=1"/>
+    </noscript>
+    <!-- End Facebook Pixel Code -->
+    
     <!-- Google Fonts - Premium Luxury Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1425,11 +1444,24 @@
 
         // Submit Order
         async function submitOrder() {
+            // Track Facebook Pixel InitiateCheckout
+            const selectedSize = document.querySelector('.size-option.selected');
+            if (selectedSize) {
+                fbq('track', 'InitiateCheckout', {
+                    content_name: 'ZAYN - T-shirt Oversize Premium',
+                    content_category: currentGender + ' - ' + currentColor,
+                    content_ids: [selectedSize.textContent],
+                    num_items: quantity,
+                    value: (promoPrice || (productPrice * quantity)) + (promoShipping !== null ? promoShipping : shippingPrice),
+                    currency: 'TND'
+                });
+                console.log('📊 Facebook Pixel InitiateCheckout event tracked');
+            }
+
             const name = document.getElementById('customerName').value.trim();
             const phone = document.getElementById('customerPhone').value.trim();
             const address = document.getElementById('customerAddress').value.trim();
             const city = document.getElementById('customerCity').value;
-            const selectedSize = document.querySelector('.size-option.selected');
 
             // Validation
             if (!name) {
@@ -1498,6 +1530,19 @@
                 }
 
                 console.log('✅ Order saved successfully:', data);
+
+                // Track Facebook Pixel Purchase Event
+                fbq('track', 'Purchase', {
+                    value: orderDetails.total,
+                    currency: 'TND',
+                    content_name: orderDetails.product,
+                    content_category: orderDetails.gender + ' - ' + orderDetails.color,
+                    content_ids: [orderDetails.size],
+                    num_items: orderDetails.quantity,
+                    status: 'completed'
+                });
+
+                console.log('📊 Facebook Pixel Purchase event tracked');
 
                 // Show success message
                 alert(`✅ Commande confirmée!\n\nNom: ${orderDetails.customer_name}\nTéléphone: ${orderDetails.customer_phone}\nAdresse: ${orderDetails.customer_address}\nVille: ${orderDetails.customer_city}\n\nProduit: ${orderDetails.product}\nGenre: ${orderDetails.gender}\nCouleur: ${orderDetails.color}\nTaille: ${orderDetails.size}\nQuantité: ${orderDetails.quantity}\n\nTotal: ${orderDetails.total} DT\n\nNous vous contacterons bientôt au 99 213 014 pour confirmer votre commande!`);
