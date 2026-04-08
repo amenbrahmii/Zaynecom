@@ -436,6 +436,193 @@
             transform: translateY(0);
         }
 
+        /* Success Modal */
+        .success-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 10000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .success-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .success-modal-content {
+            background: white;
+            border-radius: 16px;
+            max-width: 500px;
+            width: 90%;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            transform: scale(0.7);
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .success-modal.active .success-modal-content {
+            transform: scale(1);
+        }
+
+        .success-checkmark {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: scaleIn 0.5s ease 0.2s both;
+        }
+
+        .success-checkmark::after {
+            content: '✓';
+            color: white;
+            font-size: 3rem;
+            font-weight: 700;
+            animation: checkmark 0.3s ease 0.5s both;
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes checkmark {
+            from {
+                opacity: 0;
+                transform: scale(0) rotate(-45deg);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) rotate(0);
+            }
+        }
+
+        .success-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 1rem;
+            font-family: 'Playfair Display', serif;
+            animation: fadeInUp 0.5s ease 0.3s both;
+        }
+
+        .success-message {
+            font-size: 1rem;
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.5s ease 0.4s both;
+        }
+
+        .success-order-details {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: left;
+            animation: fadeInUp 0.5s ease 0.5s both;
+        }
+
+        .success-order-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid #e5e5e5;
+            font-size: 0.9rem;
+        }
+
+        .success-order-row:last-child {
+            border-bottom: none;
+        }
+
+        .success-order-label {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .success-order-value {
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+
+        .success-order-total {
+            font-size: 1.3rem;
+            color: #27ae60;
+            font-weight: 700;
+        }
+
+        .success-contact-info {
+            background-color: #fff3cd;
+            border-left: 4px solid #f39c12;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.5s ease 0.6s both;
+        }
+
+        .success-contact-info p {
+            margin: 0.3rem 0;
+            font-size: 0.9rem;
+            color: #856404;
+        }
+
+        .success-contact-info strong {
+            color: #1a1a1a;
+        }
+
+        .success-close-btn {
+            background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+            color: white;
+            border: none;
+            padding: 1rem 3rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-family: 'Montserrat', sans-serif;
+            animation: fadeInUp 0.5s ease 0.7s both;
+        }
+
+        .success-close-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .success-close-btn:active {
+            transform: translateY(0);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         /* Promo Price */
         .price-section {
             margin-bottom: 1.5rem;
@@ -1036,6 +1223,27 @@
         </div>
     </div>
 
+    <!-- Success Modal -->
+    <div class="success-modal" id="successModal">
+        <div class="success-modal-content">
+            <div class="success-checkmark"></div>
+            <h2 class="success-title">Merci pour votre commande !</h2>
+            <p class="success-message">
+                Votre commande a été enregistrée avec succès.<br>
+                Notre équipe vous contactera dans les plus brefs délais pour confirmer les détails.
+            </p>
+            <div class="success-order-details" id="successOrderDetails">
+                <!-- Order details will be inserted here -->
+            </div>
+            <div class="success-contact-info">
+                <p><strong>📞 Besoin d'aide ?</strong></p>
+                <p>Contactez-nous : <strong>99 213 014</strong></p>
+                <p>Heures d'ouverture : 9h00 - 18h00</p>
+            </div>
+            <button class="success-close-btn" onclick="closeSuccessModal()">Fermer</button>
+        </div>
+    </div>
+
     <!-- GSAP & ScrollTrigger -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -1544,16 +1752,8 @@
 
                 console.log('📊 Facebook Pixel Purchase event tracked');
 
-                // Show success message
-                alert(`✅ Commande confirmée!\n\nNom: ${orderDetails.customer_name}\nTéléphone: ${orderDetails.customer_phone}\nAdresse: ${orderDetails.customer_address}\nVille: ${orderDetails.customer_city}\n\nProduit: ${orderDetails.product}\nGenre: ${orderDetails.gender}\nCouleur: ${orderDetails.color}\nTaille: ${orderDetails.size}\nQuantité: ${orderDetails.quantity}\n\nTotal: ${orderDetails.total} DT\n\nNous vous contacterons bientôt au 99 213 014 pour confirmer votre commande!`);
-
-                console.log('Order saved to Supabase:', data);
-                
-                // Optionally clear the form
-                document.getElementById('customerName').value = '';
-                document.getElementById('customerPhone').value = '';
-                document.getElementById('customerAddress').value = '';
-                document.getElementById('customerCity').value = '';
+                // Show success modal with order details
+                showSuccessModal(orderDetails);
                 
             } catch (err) {
                 console.error('Order submission failed:', err);
@@ -1639,6 +1839,84 @@
                 shippingRow.querySelector('span:last-child').style.fontWeight = '400';
             }
         }
+
+        // Show Success Modal
+        function showSuccessModal(orderDetails) {
+            const modal = document.getElementById('successModal');
+            const orderDetailsDiv = document.getElementById('successOrderDetails');
+            
+            // Generate order details HTML
+            orderDetailsDiv.innerHTML = `
+                <div class="success-order-row">
+                    <span class="success-order-label">Produit</span>
+                    <span class="success-order-value">${orderDetails.product}</span>
+                </div>
+                <div class="success-order-row">
+                    <span class="success-order-label">Genre</span>
+                    <span class="success-order-value">${orderDetails.gender}</span>
+                </div>
+                <div class="success-order-row">
+                    <span class="success-order-label">Couleur</span>
+                    <span class="success-order-value">${orderDetails.color}</span>
+                </div>
+                <div class="success-order-row">
+                    <span class="success-order-label">Taille</span>
+                    <span class="success-order-value">${orderDetails.size}</span>
+                </div>
+                <div class="success-order-row">
+                    <span class="success-order-label">Quantité</span>
+                    <span class="success-order-value">${orderDetails.quantity}</span>
+                </div>
+                <div class="success-order-row">
+                    <span class="success-order-label">Client</span>
+                    <span class="success-order-value">${orderDetails.customer_name}</span>
+                </div>
+                <div class="success-order-row">
+                    <span class="success-order-label">Ville</span>
+                    <span class="success-order-value">${orderDetails.customer_city}</span>
+                </div>
+                <div class="success-order-row">
+                    <span class="success-order-label">Total</span>
+                    <span class="success-order-value success-order-total">${orderDetails.total} DT</span>
+                </div>
+            `;
+            
+            // Show modal
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            
+            // Clear form
+            document.getElementById('customerName').value = '';
+            document.getElementById('customerPhone').value = '';
+            document.getElementById('customerAddress').value = '';
+            document.getElementById('customerCity').value = '';
+            
+            console.log('✅ Success modal displayed');
+        }
+
+        // Close Success Modal
+        function closeSuccessModal() {
+            const modal = document.getElementById('successModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto'; // Restore scrolling
+            
+            console.log('Modal closed');
+        }
+
+        // Close modal when clicking outside
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('successModal');
+            if (event.target === modal) {
+                closeSuccessModal();
+            }
+        });
+
+        // Close modal on ESC key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeSuccessModal();
+            }
+        });
     </script>
 </body>
 </html>
