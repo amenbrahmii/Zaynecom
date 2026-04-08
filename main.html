@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZAYN - T-Shirt Oversize Premuim </title>
+    
+    <!-- Google Fonts - Premium Luxury Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: #1a1a1a;
+            line-height: 1.6;
+            overflow-x: hidden;
+            font-weight: 400;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 3rem;
+            border-bottom: 1px solid #e5e5e5;
+            background: #fff;
+        }
+
+        .logo img {
+            height: 40px;
+            width: auto;
+            filter: brightness(0);
+        }
+
+        .nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: #1a1a1a;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: #1a1a1a;
+            transition: width 0.3s ease;
+        }
+
+        .nav a:hover::after {
+            width: 100%;
+        }
+
+        .nav a:hover {
+            opacity: 1;
+            color: #333;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .panier-btn {
+            background-color: #000;
+            color: #fff;
+            padding: 0.7rem 1.8rem;
+            border: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .panier-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .panier-btn:hover::before {
+            left: 100%;
+        }
+
+        .panier-btn:hover {
+            background-color: #1a1a1a;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 3rem;
+            gap: 4rem;
+        }
+
+        /* Product Images */
+        .product-images {
+            position: sticky;
+            top: 6rem;
+            height: fit-content;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .product-logo {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .product-logo img {
+            height: 28px;
+            width: auto;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+            filter: brightness(0);
+        }
+
+        .product-logo img:hover {
+            opacity: 1;
+        }
+
+        .main-image {
+            width: 100%;
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            aspect-ratio: 3/4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .main-image:hover {
+            transform: scale(1.02);
+        }
+
+        .main-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .placeholder-text {
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        .thumbnail-gallery {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .thumbnail {
+            width: 60px;
+            height: 60px;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .thumbnail:hover,
+        .thumbnail.active {
+            border-color: #1a1a1a;
+            transform: translateY(-4px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Product Info */
+        .product-info {
+            padding-top: 1rem;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .breadcrumb {
+            font-size: 0.8rem;
+            color: #888;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .product-title {
+            font-size: 2.2rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            opacity: 0;
+            transform: translateY(20px);
+            font-family: 'Playfair Display', 'Cormorant Garamond', serif;
+            letter-spacing: 0.03em;
+            line-height: 1.2;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .product-description {
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.9;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            font-weight: 300;
+            letter-spacing: 0.02em;
+        }
+
+        .product-description li {
+            margin-bottom: 0.5rem;
+            padding-left: 0.5rem;
+        }
+
+        /* Color Selection */
+        .option-section {
+            margin-bottom: 2rem;
+        }
+
+        .option-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            display: block;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        /* Gender Selection */
+        .gender-options {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .gender-option {
+            flex: 1;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-align: center;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .gender-option:hover {
+            border-color: #1a1a1a;
+            transform: translateY(-2px);
+        }
+
+        .gender-option.selected {
+            background-color: #1a1a1a;
+            color: white;
+            border-color: #1a1a1a;
+        }
+
+        .color-options {
+            display: flex;
+            gap: 0.8rem;
+        }
+
+        .color-option {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .color-option:hover {
+            transform: scale(1.15);
+        }
+
+        .color-option.selected {
+            border-color: #1a1a1a;
+            box-shadow: 0 0 0 2px white, 0 0 0 4px #1a1a1a;
+        }
+
+        .color-black {
+            background-color: #000;
+        }
+
+        .color-white {
+            background-color: #fff;
+            border: 1px solid #ddd;
+        }
+
+        /* Size Selection */
+        .size-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+
+        .size-chart-link {
+            font-size: 0.8rem;
+            text-decoration: underline;
+            color: #1a1a1a;
+            cursor: pointer;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .size-options {
+            display: flex;
+            gap: 0.8rem;
+        }
+
+        .size-option {
+            padding: 0.8rem 1.5rem;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            min-width: 60px;
+            text-align: center;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .size-option:hover {
+            border-color: #1a1a1a;
+            transform: translateY(-2px);
+        }
+
+        .size-option.selected {
+            background-color: #1a1a1a;
+            color: white;
+            border-color: #1a1a1a;
+        }
+
+        /* Add to Bag Button */
+        .add-to-bag {
+            width: 100%;
+            padding: 1.2rem;
+            background-color: #1a1a1a;
+            color: white;
+            border: none;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            font-weight: 600;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .add-to-bag:hover {
+            background-color: #333;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .add-to-bag:active {
+            transform: translateY(0);
+        }
+
+        /* Promo Price */
+        .price-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .promo-price {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 0.3rem;
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: 0.08em;
+        }
+
+        .original-price {
+            font-size: 1.1rem;
+            color: #999;
+            text-decoration: line-through;
+            margin-left: 0.5rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+        }
+
+        .promo-badge {
+            display: inline-block;
+            background-color: #c9a227;
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        /* Quantity Counter */
+        .quantity-section {
+            margin-bottom: 2rem;
+        }
+
+        /* Promo Options */
+        .promo-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin-bottom: 2rem;
+        }
+
+        .promo-option {
+            padding: 1.2rem;
+            border: 2px solid #ddd;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .promo-option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.02), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .promo-option:hover::before {
+            left: 100%;
+        }
+
+        .promo-option:hover {
+            border-color: #1a1a1a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .promo-option.selected {
+            border-color: #1a1a1a;
+            background-color: #f8f9fa;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .promo-option.selected::after {
+            content: '✓';
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 24px;
+            height: 24px;
+            background-color: #1a1a1a;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
+        .promo-option-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 0.3rem;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .promo-option-subtitle {
+            font-size: 0.85rem;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .promo-badge-free {
+            display: inline-block;
+            background-color: #27ae60;
+            color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-left: 0.5rem;
+            letter-spacing: 0.05em;
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .quantity-btn {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #ddd;
+            background: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+        }
+
+        .quantity-btn:hover {
+            border-color: #1a1a1a;
+            background-color: #f5f5f5;
+        }
+
+        .quantity-display {
+            font-size: 1.3rem;
+            font-weight: 700;
+            min-width: 40px;
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Customer Info Form */
+        .customer-form {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1a1a1a;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 400;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #1a1a1a;
+            box-shadow: 0 0 0 3px rgba(26, 26, 26, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: #999;
+        }
+
+        /* Order Summary */
+        .order-summary {
+            background-color: #f8f9fa;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .summary-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #1a1a1a;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.6rem 0;
+            font-size: 1rem;
+            color: #555;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .summary-row.divider {
+            border-top: 1px solid #ddd;
+            margin-top: 0.5rem;
+            padding-top: 1rem;
+        }
+
+        .summary-row.total {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: 0.08em;
+        }
+
+        /* Accordion Sections */
+        .accordion-section {
+            border-top: 1px solid #e5e5e5;
+            padding: 1.5rem 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .accordion-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .accordion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .accordion-icon {
+            transition: transform 0.3s;
+        }
+
+        .accordion-section.open .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            font-size: 0.9rem;
+            color: #555;
+            line-height: 1.9;
+            font-weight: 300;
+            letter-spacing: 0.02em;
+        }
+
+        .accordion-section.open .accordion-content {
+            max-height: 500px;
+            padding-top: 1rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 968px) {
+            .header {
+                padding: 1rem 1.5rem;
+            }
+
+            .nav {
+                display: none;
+            }
+
+            .container {
+                grid-template-columns: 1fr;
+                padding: 1.5rem;
+                gap: 2rem;
+            }
+
+            .product-images {
+                position: relative;
+                top: 0;
+            }
+
+            .product-title {
+                font-size: 1.5rem;
+            }
+
+            .size-options {
+                flex-wrap: wrap;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .header {
+                padding: 1rem;
+            }
+
+            .logo {
+                font-size: 1.2rem;
+            }
+
+            .header-icons {
+                gap: 1rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .product-description {
+                padding-left: 1rem;
+            }
+
+            .product-title {
+                font-size: 1.3rem;
+            }
+
+            .product-price {
+                font-size: 1.3rem;
+            }
+
+            .size-option {
+                padding: 0.6rem 1rem;
+                min-width: 45px;
+                font-size: 0.85rem;
+            }
+
+            .size-options {
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+            <div class="logo">
+                <img src="logo1.png" alt="ZAYN Logo">
+            </div>
+        <nav class="nav">
+            <a href="#">Boutique</a>
+        </nav>
+        <div class="header-icons">
+            <button class="panier-btn">99 213 014</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Product Images -->
+        <div class="product-images">
+            <div class="product-logo">
+                <img src="logo1.png" alt="ZAYN Logo">
+            </div>
+            <div class="main-image" id="mainImageContainer">
+                <video autoplay muted loop playsinline id="mainVideo" style="width: 100%; height: 100%; object-fit: cover;">
+                    <source src="preview3.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <img src="" alt="Product Image" style="display: none;" id="mainImage">
+                <span class="placeholder-text" id="imagePlaceholder" style="display: none;">Image du produit à ajouter</span>
+            </div>
+            <div class="thumbnail-gallery">
+                <div class="thumbnail active" data-type="video" data-src="preview3.mp4" onclick="switchMedia(this)">
+                    <video src="preview3.mp4" muted style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;"></video>
+                </div>
+                <div class="thumbnail" data-type="image" data-src="preview1.jpg" onclick="switchMedia(this)">
+                    <img src="preview1.jpg" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;">
+                </div>
+                <div class="thumbnail" data-type="image" data-src="preview2.jpg" onclick="switchMedia(this)">
+                    <img src="preview2.jpg" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;">
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Info -->
+        <div class="product-info">
+            <div class="breadcrumb">Boutique / Vêtements</div>
+            
+            <h1 class="product-title">ZAYN - T-shirt Oversize Premuim</h1>
+            
+            <div class="price-section">
+                <div class="promo-price">
+                    49 DT
+                    <span class="original-price">65 DT</span>
+                </div>
+                <div class="promo-badge">Promo - Économisez 16 DT</div>
+            </div>
+            
+            <ul class="product-description">
+                <li>T-shirt noir minimaliste au design épuré</li>
+                <li>100% coton premium pour un confort optimal</li>
+                <li>160 GSM, Tissu doux, respirant et agréable à porter toute la journée</li>
+                <li>Coupe moderne légèrement oversize pour un look tendance</li>
+                <li>Finitions soignées et durables</li>
+                <li>Facile à associer : parfait pour un style casual ou chic</li>
+                <li>Essentiel intemporel pour toutes les saisons</li>
+            </ul>
+            <!-- Gender Selection -->
+            <div class="option-section">
+                <span class="option-label">Genre:</span>
+                <div class="gender-options">
+                    <button class="gender-option selected" data-gender="Homme" onclick="selectGender(this)">Homme</button>
+                    <button class="gender-option" data-gender="Femme" onclick="selectGender(this)">Femme</button>
+                </div>
+            </div>
+
+            <!-- Color Selection -->
+            <div class="option-section">
+                <span class="option-label">Couleur du Produit: <span id="selectedColor">Blanc</span></span>
+                <div class="color-options">
+                    <div class="color-option color-white selected" data-color="Blanc" onclick="selectColor(this)"></div>
+                    <div class="color-option color-black" data-color="Noir" onclick="selectColor(this)"></div>
+                </div>
+            </div>
+
+            <!-- Size Selection -->
+            <div class="option-section">
+                <div class="size-header">
+                    <span class="option-label">Taille du Produit:</span>
+                    <span class="size-chart-link">Guide des Tailles</span>
+                </div>
+                <div class="size-options">
+                    <button class="size-option" onclick="selectSize(this)">S</button>
+                    <button class="size-option selected" onclick="selectSize(this)">M</button>
+                    <button class="size-option" onclick="selectSize(this)">L</button>
+                    <button class="size-option" onclick="selectSize(this)">XL</button>
+                    <button class="size-option" onclick="selectSize(this)">XXL</button>
+                </div>
+            </div>
+
+            <!-- Promo Options -->
+            <div class="promo-options">
+                <div class="promo-option" data-quantity="2" data-price="79" data-shipping="7" onclick="selectPromoOption(this)">
+                    <div class="promo-option-title">Acheter 2 à 79 DT</div>
+                    <div class="promo-option-subtitle">Économisez 19 DT</div>
+                </div>
+                <div class="promo-option" data-quantity="3" data-price="99" data-shipping="0" onclick="selectPromoOption(this)">
+                    <div class="promo-option-title">
+                        Acheter 3 à 99 DT
+                        <span class="promo-badge-free">Livraison Gratuite</span>
+                    </div>
+                    <div class="promo-option-subtitle">Économisez 48 DT + Livraison Offerte</div>
+                </div>
+            </div>
+
+            <!-- Quantity Selection -->
+            <div class="quantity-section">
+                <span class="option-label">Quantité:</span>
+                <div class="quantity-selector">
+                    <button class="quantity-btn" onclick="updateQuantity(-1)">−</button>
+                    <span class="quantity-display" id="quantityDisplay">1</span>
+                    <button class="quantity-btn" onclick="updateQuantity(1)">+</button>
+                </div>
+            </div>
+
+            <!-- Customer Information Form -->
+            <div class="customer-form">
+                <div class="form-group">
+                    <label class="form-label">Nom et Prénom</label>
+                    <input type="text" class="form-input" id="customerName" placeholder="Entrez votre nom complet">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Numéro de Téléphone</label>
+                    <input type="tel" class="form-input" id="customerPhone" placeholder="Entrez votre numéro de téléphone">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Adresse de Livraison</label>
+                    <input type="text" class="form-input" id="customerAddress" placeholder="Entrez votre adresse">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Ville</label>
+                    <select class="form-input" id="customerCity">
+                        <option value="" disabled selected>Sélectionnez votre ville</option>
+                        <option value="Tunis">Tunis</option>
+                        <option value="Ariana">Ariana</option>
+                        <option value="Ben Arous">Ben Arous</option>
+                        <option value="La Manouba">La Manouba</option>
+                        <option value="Nabeul">Nabeul</option>
+                        <option value="Zaghouan">Zaghouan</option>
+                        <option value="Bizerte">Bizerte</option>
+                        <option value="Béja">Béja</option>
+                        <option value="Jendouba">Jendouba</option>
+                        <option value="Le Kef">Le Kef</option>
+                        <option value="Siliana">Siliana</option>
+                        <option value="Kairouan">Kairouan</option>
+                        <option value="Kasserine">Kasserine</option>
+                        <option value="Sidi Bouzid">Sidi Bouzid</option>
+                        <option value="Sousse">Sousse</option>
+                        <option value="Monastir">Monastir</option>
+                        <option value="Mahdia">Mahdia</option>
+                        <option value="Sfax">Sfax</option>
+                        <option value="Kebili">Kebili</option>
+                        <option value="Gabès">Gabès</option>
+                        <option value="Médenine">Médenine</option>
+                        <option value="Tataouine">Tataouine</option>
+                        <option value="Tozeur">Tozeur</option>
+                        <option value="Gafsa">Gafsa</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="order-summary" id="orderSummary">
+                <div class="summary-title">Récapitulatif de la Commande</div>
+                <div class="summary-row">
+                    <span>Produit</span>
+                    <span id="summaryProduct">49 DT</span>
+                </div>
+                <div class="summary-row">
+                    <span>Livraison</span>
+                    <span>7 DT</span>
+                </div>
+                <div class="summary-row divider total">
+                    <span>Total</span>
+                    <span id="summaryTotal">56 DT</span>
+                </div>
+            </div>
+
+            <!-- Add to Bag Button -->
+            <button class="add-to-bag" onclick="submitOrder()">Commandez</button>
+
+            <!-- Accordion Sections -->
+            <div class="accordion-section" onclick="toggleAccordion(this)">
+                <div class="accordion-header">
+                    <span>Vérifier la Disponibilité en Magasin</span>
+                    <span class="accordion-icon">⌄</span>
+                </div>
+                <div class="accordion-content">
+                    Entrez votre code postal pour vérifier la disponibilité dans les magasins près de chez vous.
+                </div>
+            </div>
+
+            <div class="accordion-section" onclick="toggleAccordion(this)">
+                <div class="accordion-header">
+                    <span>Détails de l'Ajustement</span>
+                    <span class="accordion-icon">⌄</span>
+                </div>
+                <div class="accordion-content">
+                    Coupe classique. Ce pull est fidèle à la taille. Le modèle porte une taille M et mesure 1m75.
+                </div>
+            </div>
+
+            <div class="accordion-section" onclick="toggleAccordion(this)">
+                <div class="accordion-header">
+                    <span>Fabrication & Entretien</span>
+                    <span class="accordion-icon">⌄</span>
+                </div>
+                <div class="accordion-content">
+                    70% laine d'alpaga bébé, 30% laine vierge. Lavage à la main à l'eau froide. Sécher à plat. Ne pas blanchir. Ne pas repasser. Ne pas nettoyer à sec.
+                </div>
+            </div>
+
+            <div class="accordion-section" onclick="toggleAccordion(this)">
+                <div class="accordion-header">
+                    <span>Livraison & Retours</span>
+                    <span class="accordion-icon">⌄</span>
+                </div>
+                <div class="accordion-content">
+                    Livraison gratuite pour les commandes de plus de 100€. Retours gratuits sous 30 jours. Consultez notre politique de retour complète pour plus de détails.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GSAP & ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+        // Initialize Supabase
+        const SUPABASE_URL = 'https://odpbwvelzzapcvfnzyic.supabase.co'; // Replace with your Supabase URL
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9kcGJ3dmVsenphcGN2Zm56eWljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2NDY3NjIsImV4cCI6MjA5MTIyMjc2Mn0.21EHos2R_yH-2S8T_wd-t_ytqV_VlZBfNlX-IiE1B9Q'; // Replace with your Supabase anon key
+        
+        // Fix: Use the correct global variable name
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Track visitor on page load
+        async function trackVisitor() {
+            try {
+                console.log('📊 Tracking visitor...');
+                const { data, error } = await supabaseClient
+                    .from('visitors')
+                    .insert([
+                        {
+                            page: window.location.pathname,
+                            timestamp: new Date().toISOString()
+                        }
+                    ])
+                    .select();
+                
+                if (error) {
+                    console.error('❌ Error tracking visitor:', error);
+                    console.error('Error details:', JSON.stringify(error, null, 2));
+                } else {
+                    console.log('✅ Visitor tracked successfully:', data);
+                }
+            } catch (err) {
+                console.error('❌ Visitor tracking failed:', err);
+                console.error('Error details:', err.message);
+            }
+        }
+
+        // Track visitor when page loads
+        trackVisitor();
+
+        // Initialize Lenis Smooth Scroll
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            smoothTouch: false,
+            touchMultiplier: 2
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+
+        requestAnimationFrame(raf);
+
+        // Integrate Lenis with GSAP ScrollTrigger
+        lenis.on('scroll', ScrollTrigger.update);
+
+        gsap.ticker.add((time) => {
+            lenis.raf(time * 1000);
+        });
+
+        gsap.ticker.lagSmoothing(0);
+
+        // Header Animation - Fade In
+        gsap.from('.header', {
+            opacity: 0,
+            y: -20,
+            duration: 0.8,
+            ease: 'power3.out',
+            delay: 0.2
+        });
+
+        // Product Images Animation
+        gsap.to('.product-images', {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            ease: 'power3.out',
+            delay: 0.4
+        });
+
+        // Product Info Animation
+        gsap.to('.product-info', {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            ease: 'power3.out',
+            delay: 0.6
+        });
+
+        // Stagger animations for product elements
+        gsap.to('.product-title', {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: 'power3.out',
+            delay: 0.8
+        });
+
+        gsap.to('.product-price', {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: 'power3.out',
+            delay: 0.9
+        });
+
+        gsap.to('.product-description', {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: 'power3.out',
+            delay: 1.0
+        });
+
+        // Animate option sections
+        gsap.to('.option-section', {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: 'power3.out',
+            delay: 1.1,
+            stagger: 0.1
+        });
+
+        // Add to Bag Button Animation
+        gsap.to('.add-to-bag', {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: 'power3.out',
+            delay: 1.3
+        });
+
+        // Accordion Sections with ScrollTrigger
+        gsap.utils.toArray('.accordion-section').forEach((section, i) => {
+            gsap.to(section, {
+                scrollTrigger: {
+                    trigger: section,
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse'
+                },
+                opacity: 1,
+                y: 0,
+                duration: 0.6,
+                ease: 'power3.out',
+                delay: i * 0.1,
+                onStart: function() {
+                    section.classList.add('visible');
+                }
+            });
+        });
+
+        // Parallax effect on main image
+        gsap.to('.main-image', {
+            scrollTrigger: {
+                trigger: '.product-images',
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: 1
+            },
+            y: -30,
+            ease: 'none'
+        });
+
+        // Media Switch Handler
+        function switchMedia(element) {
+            // Update active thumbnail
+            document.querySelectorAll('.thumbnail').forEach(thumb => {
+                thumb.classList.remove('active');
+            });
+            element.classList.add('active');
+
+            const mediaType = element.dataset.type;
+            const mediaSrc = element.dataset.src;
+            const mainVideo = document.getElementById('mainVideo');
+            const mainImage = document.getElementById('mainImage');
+            const placeholder = document.getElementById('imagePlaceholder');
+
+            // Animate transition
+            gsap.to('.main-image', {
+                opacity: 0,
+                scale: 0.98,
+                duration: 0.2,
+                onComplete: () => {
+                    // Hide all
+                    mainVideo.style.display = 'none';
+                    mainImage.style.display = 'none';
+                    placeholder.style.display = 'none';
+
+                    // Show selected media
+                    if (mediaType === 'video') {
+                        mainVideo.src = mediaSrc;
+                        mainVideo.style.display = 'block';
+                        mainVideo.play();
+                    } else if (mediaType === 'image') {
+                        mainImage.src = mediaSrc;
+                        mainImage.style.display = 'block';
+                        mainImage.onload = function() {
+                            placeholder.style.display = 'none';
+                        };
+                    }
+
+                    // Animate back in
+                    gsap.to('.main-image', {
+                        opacity: 1,
+                        scale: 1,
+                        duration: 0.3,
+                        ease: 'power2.out'
+                    });
+                }
+            });
+        }
+
+        // Media sets for different colors and genders
+        const mediaSets = {
+            'Homme-Blanc': [
+                { type: 'video', src: 'preview3.mp4' },
+                { type: 'image', src: 'preview1.jpg' },
+                { type: 'image', src: 'preview2.jpg' }
+            ],
+            'Homme-Noir': [
+                { type: 'image', src: 'preview4.jpg' },
+                { type: 'image', src: 'preview5.jpg' },
+                { type: 'image', src: 'preview6.jpg' }
+            ],
+            'Femme-Blanc': [
+                { type: 'image', src: 'preview9.jpg' },
+                { type: 'image', src: 'preview10.jpg' }
+            ],
+            'Femme-Noir': [
+                { type: 'video', src: 'preview11.mp4' },
+                { type: 'image', src: 'preview7.jpg' },
+                { type: 'image', src: 'preview8.jpg' }
+            ]
+        };
+
+        let currentColor = 'Blanc';
+        let currentGender = 'Homme';
+        let quantity = 1;
+        let promoQuantity = null;
+        let promoPrice = null;
+        let promoShipping = null;
+        const productPrice = 49;
+        const shippingPrice = 7;
+
+        // Color Selection
+        function selectColor(element) {
+            document.querySelectorAll('.color-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            const newColor = element.dataset.color;
+            document.getElementById('selectedColor').textContent = newColor;
+
+            // Animate selection
+            gsap.fromTo(element, 
+                { scale: 0.9 },
+                { scale: 1, duration: 0.3, ease: 'back.out(1.7)' }
+            );
+
+            // Switch media set if color changed
+            if (newColor !== currentColor) {
+                currentColor = newColor;
+                const mediaKey = `${currentGender}-${newColor}`;
+                switchMediaSet(mediaSets[mediaKey]);
+            }
+        }
+
+        // Gender Selection
+        function selectGender(element) {
+            document.querySelectorAll('.gender-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            const newGender = element.dataset.gender;
+
+            // Animate selection
+            gsap.fromTo(element, 
+                { scale: 0.95 },
+                { scale: 1, duration: 0.3, ease: 'back.out(1.7)' }
+            );
+
+            // Switch media set if gender changed
+            if (newGender !== currentGender) {
+                currentGender = newGender;
+                const mediaKey = `${currentGender}-${currentColor}`;
+                switchMediaSet(mediaSets[mediaKey]);
+            }
+        }
+
+        // Switch entire media set with smooth transition
+        function switchMediaSet(mediaArray) {
+            // Fade out current media
+            gsap.to('.main-image', {
+                opacity: 0,
+                scale: 0.98,
+                duration: 0.3,
+                ease: 'power2.inOut',
+                onComplete: () => {
+                    // Update thumbnails
+                    const thumbnailGallery = document.querySelector('.thumbnail-gallery');
+                    thumbnailGallery.innerHTML = '';
+                    
+                    mediaArray.forEach((media, index) => {
+                        const thumb = document.createElement('div');
+                        thumb.className = `thumbnail ${index === 0 ? 'active' : ''}`;
+                        thumb.dataset.type = media.type;
+                        thumb.dataset.src = media.src;
+                        thumb.onclick = function() { switchMedia(this); };
+                        
+                        if (media.type === 'video') {
+                            thumb.innerHTML = `<video src="${media.src}" muted style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;"></video>`;
+                        } else {
+                            thumb.innerHTML = `<img src="${media.src}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;">`;
+                        }
+                        
+                        thumbnailGallery.appendChild(thumb);
+                    });
+
+                    // Update main media
+                    const mainVideo = document.getElementById('mainVideo');
+                    const mainImage = document.getElementById('mainImage');
+                    const placeholder = document.getElementById('imagePlaceholder');
+                    const firstMedia = mediaArray[0];
+
+                    // Hide all media first
+                    mainVideo.style.display = 'none';
+                    mainVideo.pause();
+                    mainImage.style.display = 'none';
+                    placeholder.style.display = 'none';
+
+                    // Show the correct media type
+                    if (firstMedia.type === 'video') {
+                        mainVideo.src = firstMedia.src;
+                        mainVideo.style.display = 'block';
+                        mainVideo.load();
+                        mainVideo.play();
+                    } else if (firstMedia.type === 'image') {
+                        mainImage.src = firstMedia.src;
+                        mainImage.style.display = 'block';
+                        mainImage.onload = function() {
+                            console.log('Image loaded successfully:', firstMedia.src);
+                        };
+                        mainImage.onerror = function() {
+                            console.error('Failed to load image:', firstMedia.src);
+                            placeholder.style.display = 'block';
+                            placeholder.textContent = 'Image non disponible';
+                        };
+                    }
+
+                    // Fade back in
+                    gsap.to('.main-image', {
+                        opacity: 1,
+                        scale: 1,
+                        duration: 0.4,
+                        ease: 'power2.out'
+                    });
+                }
+            });
+        }
+
+        // Size Selection
+        function selectSize(element) {
+            document.querySelectorAll('.size-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            element.classList.add('selected');
+
+            // Animate selection
+            gsap.fromTo(element,
+                { scale: 0.95 },
+                { scale: 1, duration: 0.3, ease: 'back.out(1.7)' }
+            );
+        }
+
+        // Accordion Toggle
+        function toggleAccordion(element) {
+            const isOpen = element.classList.contains('open');
+            
+            if (isOpen) {
+                element.classList.remove('open');
+                gsap.to(element.querySelector('.accordion-content'), {
+                    height: 0,
+                    opacity: 0,
+                    duration: 0.3,
+                    ease: 'power2.inOut'
+                });
+            } else {
+                element.classList.add('open');
+                gsap.fromTo(element.querySelector('.accordion-content'),
+                    { height: 0, opacity: 0 },
+                    { height: 'auto', opacity: 1, duration: 0.4, ease: 'power2.out' }
+                );
+            }
+        }
+
+        // Submit Order
+        async function submitOrder() {
+            const name = document.getElementById('customerName').value.trim();
+            const phone = document.getElementById('customerPhone').value.trim();
+            const address = document.getElementById('customerAddress').value.trim();
+            const city = document.getElementById('customerCity').value;
+            const selectedSize = document.querySelector('.size-option.selected');
+
+            // Validation
+            if (!name) {
+                alert('Veuillez entrer votre nom et prénom');
+                document.getElementById('customerName').focus();
+                return;
+            }
+
+            if (!phone) {
+                alert('Veuillez entrer votre numéro de téléphone');
+                document.getElementById('customerPhone').focus();
+                return;
+            }
+
+            if (!address) {
+                alert('Veuillez entrer votre adresse');
+                document.getElementById('customerAddress').focus();
+                return;
+            }
+
+            if (!city) {
+                alert('Veuillez sélectionner votre ville');
+                document.getElementById('customerCity').focus();
+                return;
+            }
+
+            if (!selectedSize) {
+                alert('Veuillez sélectionner une taille');
+                return;
+            }
+
+            // Order details
+            const orderDetails = {
+                product: 'ZAYN - T-shirt Oversize Premium',
+                gender: currentGender,
+                color: currentColor,
+                size: selectedSize.textContent,
+                quantity: quantity,
+                customer_name: name,
+                customer_phone: phone,
+                customer_address: address,
+                customer_city: city,
+                product_price: promoPrice || productPrice,
+                shipping: promoShipping !== null ? promoShipping : shippingPrice,
+                total: (promoPrice || (productPrice * quantity)) + (promoShipping !== null ? promoShipping : shippingPrice),
+                is_promo: promoQuantity !== null,
+                promo_type: promoQuantity ? `${promoQuantity} items` : 'none',
+                timestamp: new Date().toISOString()
+            };
+
+            try {
+                console.log('📦 Submitting order...');
+                console.log('Order details:', orderDetails);
+                
+                // Save order to Supabase
+                const { data, error } = await supabaseClient
+                    .from('orders')
+                    .insert([orderDetails])
+                    .select();
+
+                if (error) {
+                    console.error('❌ Error saving order:', error);
+                    console.error('Error details:', JSON.stringify(error, null, 2));
+                    alert('❌ Une erreur est survenue lors de la commande. Veuillez nous contacter directement au 99 213 014\n\nError: ' + error.message);
+                    return;
+                }
+
+                console.log('✅ Order saved successfully:', data);
+
+                // Show success message
+                alert(`✅ Commande confirmée!\n\nNom: ${orderDetails.customer_name}\nTéléphone: ${orderDetails.customer_phone}\nAdresse: ${orderDetails.customer_address}\nVille: ${orderDetails.customer_city}\n\nProduit: ${orderDetails.product}\nGenre: ${orderDetails.gender}\nCouleur: ${orderDetails.color}\nTaille: ${orderDetails.size}\nQuantité: ${orderDetails.quantity}\n\nTotal: ${orderDetails.total} DT\n\nNous vous contacterons bientôt au 99 213 014 pour confirmer votre commande!`);
+
+                console.log('Order saved to Supabase:', data);
+                
+                // Optionally clear the form
+                document.getElementById('customerName').value = '';
+                document.getElementById('customerPhone').value = '';
+                document.getElementById('customerAddress').value = '';
+                document.getElementById('customerCity').value = '';
+                
+            } catch (err) {
+                console.error('Order submission failed:', err);
+                alert('❌ Une erreur est survenue. Veuillez nous contacter au 99 213 014');
+            }
+        }
+
+        // Update Quantity
+        function updateQuantity(change) {
+            // Clear promo selection when manually adjusting quantity
+            document.querySelectorAll('.promo-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            promoQuantity = null;
+            promoPrice = null;
+            promoShipping = null;
+            
+            quantity += change;
+            if (quantity < 1) quantity = 1;
+            if (quantity > 10) quantity = 10;
+            
+            document.getElementById('quantityDisplay').textContent = quantity;
+            updateOrderSummary();
+        }
+
+        // Select Promo Option
+        function selectPromoOption(element) {
+            // Remove selection from all promo options
+            document.querySelectorAll('.promo-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Add selection to clicked option
+            element.classList.add('selected');
+            
+            // Update promo values
+            promoQuantity = parseInt(element.dataset.quantity);
+            promoPrice = parseInt(element.dataset.price);
+            promoShipping = parseInt(element.dataset.shipping);
+            
+            // Update quantity display
+            quantity = promoQuantity;
+            document.getElementById('quantityDisplay').textContent = quantity;
+            
+            // Animate selection
+            gsap.fromTo(element, 
+                { scale: 0.98 },
+                { scale: 1, duration: 0.3, ease: 'back.out(1.7)' }
+            );
+            
+            // Update order summary
+            updateOrderSummary();
+        }
+
+        // Update Order Summary
+        function updateOrderSummary() {
+            let productTotal;
+            let shipping;
+            
+            // Check if promo option is selected
+            if (promoQuantity !== null && promoPrice !== null) {
+                productTotal = promoPrice;
+                shipping = promoShipping;
+            } else {
+                productTotal = productPrice * quantity;
+                shipping = shippingPrice;
+            }
+            
+            const total = productTotal + shipping;
+            
+            document.getElementById('summaryProduct').textContent = `${productTotal} DT`;
+            document.getElementById('summaryTotal').textContent = `${total} DT`;
+            
+            // Update shipping display
+            const shippingRow = document.querySelectorAll('.summary-row')[1];
+            if (shipping === 0) {
+                shippingRow.querySelector('span:last-child').textContent = 'Gratuite';
+                shippingRow.querySelector('span:last-child').style.color = '#27ae60';
+                shippingRow.querySelector('span:last-child').style.fontWeight = '600';
+            } else {
+                shippingRow.querySelector('span:last-child').textContent = `${shipping} DT`;
+                shippingRow.querySelector('span:last-child').style.color = '#555';
+                shippingRow.querySelector('span:last-child').style.fontWeight = '400';
+            }
+        }
+    </script>
+</body>
+</html>

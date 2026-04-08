@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZAYN - Dashboard Admin</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f5f5f5;
+            color: #1a1a1a;
+        }
+
+        /* Header */
+        .header {
+            background-color: #1a1a1a;
+            color: white;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+        }
+
+        .stats {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0.8;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        /* Filters */
+        .filters {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .filter-select {
+            padding: 0.7rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: #1a1a1a;
+        }
+
+        /* Orders Table */
+        .orders-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .orders-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .orders-table thead {
+            background-color: #1a1a1a;
+            color: white;
+        }
+
+        .orders-table th {
+            padding: 1rem;
+            text-align: left;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .orders-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #e5e5e5;
+            font-size: 0.9rem;
+        }
+
+        .orders-table tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .status-confirmed {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-canceled {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-return {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+
+        /* Status Select */
+        .status-select {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+
+        .status-select:focus {
+            outline: none;
+            border-color: #1a1a1a;
+        }
+
+        .status-select.status-pending {
+            background-color: #fff3cd;
+            border-color: #ffc107;
+        }
+
+        .status-select.status-confirmed {
+            background-color: #d4edda;
+            border-color: #28a745;
+        }
+
+        .status-select.status-canceled {
+            background-color: #f8d7da;
+            border-color: #dc3545;
+        }
+
+        .status-select.status-return {
+            background-color: #d1ecf1;
+            border-color: #17a2b8;
+        }
+
+        /* Action Buttons */
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-right: 0.5rem;
+        }
+
+        .view-btn {
+            background-color: #1a1a1a;
+            color: white;
+        }
+
+        .view-btn:hover {
+            background-color: #333;
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        /* No Orders */
+        .no-orders {
+            text-align: center;
+            padding: 3rem;
+            color: #999;
+            font-size: 1rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 2rem;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e5e5e5;
+        }
+
+        .modal-header h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: #1a1a1a;
+        }
+
+        .order-detail {
+            margin-bottom: 1rem;
+            padding: 0.8rem;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+
+        .detail-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #666;
+            margin-bottom: 0.3rem;
+        }
+
+        .detail-value {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #1a1a1a;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .orders-table {
+                font-size: 0.8rem;
+            }
+
+            .orders-table th,
+            .orders-table td {
+                padding: 0.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 1rem;
+            }
+
+            .header h1 {
+                font-size: 1.2rem;
+            }
+
+            .stats {
+                width: 100%;
+                justify-content: space-around;
+                gap: 1rem;
+            }
+
+            .stat-value {
+                font-size: 1.4rem;
+            }
+
+            .stat-label {
+                font-size: 0.65rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+                margin: 1rem auto;
+            }
+
+            .filters {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 1rem;
+            }
+
+            .filter-select {
+                width: 100%;
+            }
+
+            .refresh-btn {
+                width: 100%;
+            }
+
+            /* Hide table on mobile, show cards instead */
+            .orders-table {
+                display: none;
+            }
+
+            .mobile-orders {
+                display: block;
+            }
+
+            .modal-content {
+                width: 95%;
+                padding: 1.5rem;
+                max-height: 90vh;
+            }
+        }
+
+        /* Mobile Cards */
+        .mobile-orders {
+            display: none;
+        }
+
+        .order-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .order-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .order-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .order-id {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #1a1a1a;
+        }
+
+        .order-date {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .order-card-body {
+            margin-bottom: 1rem;
+        }
+
+        .order-card-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .order-card-row:last-child {
+            border-bottom: none;
+        }
+
+        .order-card-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #666;
+        }
+
+        .order-card-value {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #1a1a1a;
+            text-align: right;
+        }
+
+        .order-card-total {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .order-card-footer {
+            display: flex;
+            gap: 0.5rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid #e5e5e5;
+        }
+
+        .order-card-footer .status-select {
+            flex: 1;
+        }
+
+        .order-card-footer .view-btn {
+            flex: 0 0 auto;
+        }
+
+        /* Refresh Button */
+        .refresh-btn {
+            padding: 0.7rem 1.5rem;
+            background-color: #1a1a1a;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .refresh-btn:hover {
+            background-color: #333;
+            transform: translateY(-2px);
+        }
+
+        .refresh-btn:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <h1>ZAYN - Dashboard Admin</h1>
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-value" id="totalOrders">0</div>
+                <div class="stat-label">Total Commandes</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="pendingOrders">0</div>
+                <div class="stat-label">En attente</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="confirmedOrders">0</div>
+                <div class="stat-label">Confirmées</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="totalRevenue">0 DT</div>
+                <div class="stat-label">Revenu Total</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Filters -->
+        <div class="filters">
+            <span class="filter-label">Filtrer par statut:</span>
+            <select class="filter-select" id="statusFilter" onchange="filterOrders()">
+                <option value="all">Toutes les commandes</option>
+                <option value="pending">En attente</option>
+                <option value="confirmed">Confirmées</option>
+                <option value="canceled">Annulées</option>
+                <option value="return">Retour</option>
+            </select>
+            <button class="refresh-btn" onclick="loadOrders()">🔄 Actualiser</button>
+        </div>
+
+        <!-- Orders Table -->
+        <div class="orders-container">
+            <div id="loadingMessage" class="loading">Chargement des commandes...</div>
+            
+            <!-- Desktop Table View -->
+            <table class="orders-table" id="ordersTable" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Date</th>
+                        <th>Client</th>
+                        <th>Téléphone</th>
+                        <th>Ville</th>
+                        <th>Produit</th>
+                        <th>Taille</th>
+                        <th>Quantité</th>
+                        <th>Total</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="ordersBody">
+                </tbody>
+            </table>
+
+            <!-- Mobile Card View -->
+            <div class="mobile-orders" id="mobileOrders"></div>
+            
+            <div id="noOrdersMessage" class="no-orders" style="display: none;">
+                Aucune commande trouvée
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Detail Modal -->
+    <div class="modal" id="orderModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Détails de la Commande</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div id="orderDetails"></div>
+        </div>
+    </div>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+        // Initialize Supabase
+        const SUPABASE_URL = 'https://odpbwvelzzapcvfnzyic.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9kcGJ3dmVsenphcGN2Zm56eWljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2NDY3NjIsImV4cCI6MjA5MTIyMjc2Mn0.21EHos2R_yH-2S8T_wd-t_ytqV_VlZBfNlX-IiE1B9Q';
+        
+        // Check if supabase client already exists
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        let allOrders = [];
+
+        // Load Orders
+        async function loadOrders() {
+            try {
+                console.log('Loading orders from Supabase...');
+                document.getElementById('loadingMessage').style.display = 'block';
+                document.getElementById('loadingMessage').textContent = 'Chargement des commandes...';
+                document.getElementById('ordersTable').style.display = 'none';
+                document.getElementById('mobileOrders').style.display = 'none';
+                document.getElementById('noOrdersMessage').style.display = 'none';
+
+                const { data, error } = await supabaseClient
+                    .from('orders')
+                    .select('*')
+                    .order('timestamp', { ascending: false });
+
+                if (error) {
+                    console.error('Error loading orders:', error);
+                    document.getElementById('loadingMessage').textContent = 
+                        `Erreur: ${error.message}. Vérifiez la console pour plus de détails.`;
+                    return;
+                }
+
+                console.log('Orders loaded successfully:', data);
+                allOrders = data || [];
+                console.log(`Total orders: ${allOrders.length}`);
+                
+                displayOrders(allOrders);
+                updateStats(allOrders);
+
+            } catch (err) {
+                console.error('Failed to load orders:', err);
+                document.getElementById('loadingMessage').textContent = 
+                    `Erreur de connexion: ${err.message}. Vérifiez la console (F12).`;
+            }
+        }
+
+        // Display Orders
+        function displayOrders(orders) {
+            const tbody = document.getElementById('ordersBody');
+            const mobileContainer = document.getElementById('mobileOrders');
+            tbody.innerHTML = '';
+            mobileContainer.innerHTML = '';
+
+            if (orders.length === 0) {
+                document.getElementById('loadingMessage').style.display = 'none';
+                document.getElementById('ordersTable').style.display = 'none';
+                document.getElementById('mobileOrders').style.display = 'none';
+                document.getElementById('noOrdersMessage').style.display = 'block';
+                return;
+            }
+
+            document.getElementById('loadingMessage').style.display = 'none';
+            document.getElementById('ordersTable').style.display = 'table';
+            document.getElementById('mobileOrders').style.display = 'block';
+            document.getElementById('noOrdersMessage').style.display = 'none';
+
+            orders.forEach(order => {
+                const date = new Date(order.timestamp).toLocaleDateString('fr-FR', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
+                const statusClass = `status-${order.status || 'pending'}`;
+                const statusText = getStatusText(order.status);
+
+                // Desktop Table Row
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>#${order.id}</td>
+                    <td>${date}</td>
+                    <td>${order.customer_name}</td>
+                    <td>${order.customer_phone}</td>
+                    <td>${order.customer_city}</td>
+                    <td>${order.product}</td>
+                    <td>${order.size}</td>
+                    <td>${order.quantity}</td>
+                    <td><strong>${order.total} DT</strong></td>
+                    <td>
+                        <select class="status-select ${statusClass}" 
+                                onchange="updateOrderStatus(${order.id}, this.value, this)"
+                                data-order-id="${order.id}">
+                            <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>En attente</option>
+                            <option value="confirmed" ${order.status === 'confirmed' ? 'selected' : ''}>Confirmée</option>
+                            <option value="canceled" ${order.status === 'canceled' ? 'selected' : ''}>Annulée</option>
+                            <option value="return" ${order.status === 'return' ? 'selected' : ''}>Retour</option>
+                        </select>
+                    </td>
+                    <td>
+                        <button class="action-btn view-btn" onclick="viewOrderDetails(${order.id})">Voir</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+
+                // Mobile Card
+                const card = document.createElement('div');
+                card.className = 'order-card';
+                card.innerHTML = `
+                    <div class="order-card-header">
+                        <div class="order-id">#${order.id}</div>
+                        <div class="order-date">${date}</div>
+                    </div>
+                    <div class="order-card-body">
+                        <div class="order-card-row">
+                            <span class="order-card-label">Client</span>
+                            <span class="order-card-value">${order.customer_name}</span>
+                        </div>
+                        <div class="order-card-row">
+                            <span class="order-card-label">Téléphone</span>
+                            <span class="order-card-value">${order.customer_phone}</span>
+                        </div>
+                        <div class="order-card-row">
+                            <span class="order-card-label">Ville</span>
+                            <span class="order-card-value">${order.customer_city}</span>
+                        </div>
+                        <div class="order-card-row">
+                            <span class="order-card-label">Produit</span>
+                            <span class="order-card-value">${order.product}</span>
+                        </div>
+                        <div class="order-card-row">
+                            <span class="order-card-label">Taille / Qté</span>
+                            <span class="order-card-value">${order.size} / ${order.quantity}</span>
+                        </div>
+                        <div class="order-card-row">
+                            <span class="order-card-label">Total</span>
+                            <span class="order-card-value order-card-total">${order.total} DT</span>
+                        </div>
+                    </div>
+                    <div class="order-card-footer">
+                        <select class="status-select ${statusClass}" 
+                                onchange="updateOrderStatus(${order.id}, this.value, this)">
+                            <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>En attente</option>
+                            <option value="confirmed" ${order.status === 'confirmed' ? 'selected' : ''}>Confirmée</option>
+                            <option value="canceled" ${order.status === 'canceled' ? 'selected' : ''}>Annulée</option>
+                            <option value="return" ${order.status === 'return' ? 'selected' : ''}>Retour</option>
+                        </select>
+                        <button class="action-btn view-btn" onclick="viewOrderDetails(${order.id})">Voir Détails</button>
+                    </div>
+                `;
+                mobileContainer.appendChild(card);
+            });
+        }
+
+        // Get Status Text
+        function getStatusText(status) {
+            const statusMap = {
+                'pending': 'En attente',
+                'confirmed': 'Confirmée',
+                'canceled': 'Annulée',
+                'return': 'Retour'
+            };
+            return statusMap[status] || 'En attente';
+        }
+
+        // Update Order Status
+        async function updateOrderStatus(orderId, newStatus, selectElement) {
+            try {
+                const { error } = await supabaseClient
+                    .from('orders')
+                    .update({ status: newStatus })
+                    .eq('id', orderId);
+
+                if (error) {
+                    console.error('Error updating status:', error);
+                    alert('Erreur lors de la mise à jour du statut');
+                    loadOrders(); // Reload to reset
+                    return;
+                }
+
+                // Update select element styling
+                selectElement.className = `status-select status-${newStatus}`;
+                
+                console.log(`Order #${orderId} status updated to: ${newStatus}`);
+                
+                // Update stats
+                updateStats(allOrders);
+
+            } catch (err) {
+                console.error('Failed to update status:', err);
+                alert('Erreur lors de la mise à jour du statut');
+                loadOrders(); // Reload to reset
+            }
+        }
+
+        // View Order Details
+        function viewOrderDetails(orderId) {
+            const order = allOrders.find(o => o.id === orderId);
+            if (!order) return;
+
+            const date = new Date(order.timestamp).toLocaleDateString('fr-FR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            const detailsHTML = `
+                <div class="order-detail">
+                    <div class="detail-label">Numéro de Commande</div>
+                    <div class="detail-value">#${order.id}</div>
+                </div>
+                <div class="order-detail">
+                    <div class="detail-label">Date</div>
+                    <div class="detail-value">${date}</div>
+                </div>
+                <div class="order-detail">
+                    <div class="detail-label">Statut</div>
+                    <div class="detail-value">${getStatusText(order.status)}</div>
+                </div>
+                <div class="order-detail">
+                    <div class="detail-label">Informations Client</div>
+                    <div class="detail-value">
+                        <strong>Nom:</strong> ${order.customer_name}<br>
+                        <strong>Téléphone:</strong> ${order.customer_phone}<br>
+                        <strong>Adresse:</strong> ${order.customer_address}<br>
+                        <strong>Ville:</strong> ${order.customer_city}
+                    </div>
+                </div>
+                <div class="order-detail">
+                    <div class="detail-label">Détails du Produit</div>
+                    <div class="detail-value">
+                        <strong>Produit:</strong> ${order.product}<br>
+                        <strong>Genre:</strong> ${order.gender}<br>
+                        <strong>Couleur:</strong> ${order.color}<br>
+                        <strong>Taille:</strong> ${order.size}<br>
+                        <strong>Quantité:</strong> ${order.quantity}
+                    </div>
+                </div>
+                <div class="order-detail">
+                    <div class="detail-label">Récapitulatif Financier</div>
+                    <div class="detail-value">
+                        <strong>Prix du produit:</strong> ${order.product_price} DT<br>
+                        <strong>Livraison:</strong> ${order.shipping} DT<br>
+                        <strong>Total:</strong> <span style="font-size: 1.2rem; font-weight: 700;">${order.total} DT</span>
+                    </div>
+                </div>
+                ${order.is_promo ? `
+                <div class="order-detail">
+                    <div class="detail-label">Promotion</div>
+                    <div class="detail-value">
+                        <strong>Type:</strong> ${order.promo_type}
+                    </div>
+                </div>
+                ` : ''}
+            `;
+
+            document.getElementById('orderDetails').innerHTML = detailsHTML;
+            document.getElementById('orderModal').classList.add('active');
+        }
+
+        // Close Modal
+        function closeModal() {
+            document.getElementById('orderModal').classList.remove('active');
+        }
+
+        // Filter Orders
+        function filterOrders() {
+            const statusFilter = document.getElementById('statusFilter').value;
+            
+            if (statusFilter === 'all') {
+                displayOrders(allOrders);
+            } else {
+                const filtered = allOrders.filter(order => order.status === statusFilter);
+                displayOrders(filtered);
+            }
+        }
+
+        // Update Statistics
+        function updateStats(orders) {
+            const total = orders.length;
+            const pending = orders.filter(o => o.status === 'pending').length;
+            const confirmed = orders.filter(o => o.status === 'confirmed').length;
+            const revenue = orders.reduce((sum, order) => sum + (order.total || 0), 0);
+
+            document.getElementById('totalOrders').textContent = total;
+            document.getElementById('pendingOrders').textContent = pending;
+            document.getElementById('confirmedOrders').textContent = confirmed;
+            document.getElementById('totalRevenue').textContent = `${revenue} DT`;
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('orderModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // Load orders on page load
+        loadOrders();
+
+        // Test connection on load
+        async function testConnection() {
+            try {
+                console.log('Testing Supabase connection...');
+                const { data, error } = await supabaseClient
+                    .from('orders')
+                    .select('count', { count: 'exact', head: true });
+                
+                if (error) {
+                    console.error('Connection test failed:', error);
+                    console.log('You may need to run the SQL setup script in Supabase');
+                } else {
+                    console.log('Connection successful!');
+                }
+            } catch (err) {
+                console.error('Connection test error:', err);
+            }
+        }
+
+        testConnection();
+
+        // Auto-refresh every 30 seconds
+        setInterval(loadOrders, 30000);
+    </script>
+</body>
+</html>

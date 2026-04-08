@@ -1,0 +1,18 @@
+# IDE Settings
+.qoder/
+.vscode/
+.idea/
+
+# OS Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary Files
+*.tmp
+*.log
+*.bak
+
+# Browser Files
+*.swp
+*.swo

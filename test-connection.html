@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supabase Connection Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        .status {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        .status.testing {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffc107;
+        }
+
+        .status.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #28a745;
+        }
+
+        .status.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #dc3545;
+        }
+
+        .test-section {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .test-section h3 {
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .test-section p {
+            color: #666;
+            margin: 0.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        .code {
+            background-color: #2d2d2d;
+            color: #f8f8f2;
+            padding: 1rem;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0.5rem 0.5rem 0.5rem 0;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .data-display {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-top: 1rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .data-item {
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+            background: white;
+            border-radius: 4px;
+            border-left: 3px solid #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Supabase Connection Test</h1>
+        <p style="color: #666; margin-bottom: 1rem;">Testing connection to: <strong>https://odpbwvelzzapcvfnzyic.supabase.co</strong></p>
+
+        <div id="connectionStatus" class="status testing">
+            ⏳ Testing connection...
+        </div>
+
+        <div class="test-section">
+            <h3>📋 Step 1: Database Setup</h3>
+            <p>Before testing, make sure you've run the SQL setup script in Supabase:</p>
+            <ol style="margin-left: 1.5rem; color: #666;">
+                <li>Go to your Supabase project</li>
+                <li>Navigate to <strong>SQL Editor</strong></li>
+                <li>Copy and paste the entire <code>supabase-setup.sql</code> file</li>
+                <li>Click <strong>RUN</strong></li>
+            </ol>
+            <button onclick="testConnection()">Test Connection</button>
+        </div>
+
+        <div class="test-section">
+            <h3>📊 Step 2: Test Visitor Tracking</h3>
+            <button onclick="testVisitorTracking()">Insert Test Visitor</button>
+            <button onclick="testViewVisitors()">View Visitors</button>
+            <div id="visitorResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>🛒 Step 3: Test Orders</h3>
+            <button onclick="testInsertOrder()">Insert Test Order</button>
+            <button onclick="testViewOrders()">View Orders</button>
+            <div id="orderResult"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>📝 Console Output</h3>
+            <div id="consoleOutput" class="code">Waiting for tests...</div>
+        </div>
+    </div>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+        // Initialize Supabase
+        const SUPABASE_URL = 'https://odpbwvelzzapcvfnzyic.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9kcGJ3dmVsenphcGN2Zm56eWljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2NDY3NjIsImV4cCI6MjA5MTIyMjc2Mn0.21EHos2R_yH-2S8T_wd-t_ytqV_VlZBfNlX-IiE1B9Q';
+        
+        let supabase;
+        try {
+            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            log('✅ Supabase client initialized');
+        } catch (err) {
+            log('❌ Failed to initialize Supabase: ' + err.message);
+        }
+
+        // Logger
+        function log(message) {
+            const output = document.getElementById('consoleOutput');
+            const timestamp = new Date().toLocaleTimeString();
+            output.textContent = `[${timestamp}] ${message}\n` + output.textContent;
+        }
+
+        // Test Connection
+        async function testConnection() {
+            log('🔍 Testing connection to Supabase...');
+            const statusDiv = document.getElementById('connectionStatus');
+            statusDiv.className = 'status testing';
+            statusDiv.textContent = '⏳ Testing connection...';
+
+            try {
+                const { data, error } = await supabase
+                    .from('visitors')
+                    .select('count', { count: 'exact', head: true });
+
+                if (error) {
+                    log('❌ Connection failed: ' + error.message);
+                    log('Error details: ' + JSON.stringify(error, null, 2));
+                    statusDiv.className = 'status error';
+                    statusDiv.innerHTML = `❌ Connection Failed: ${error.message}<br><br>
+                        <strong>Possible causes:</strong><br>
+                        • Tables don't exist (run the SQL setup script)<br>
+                        • Incorrect credentials<br>
+                        • Network issue`;
+                } else {
+                    log('✅ Connection successful! Tables exist.');
+                    statusDiv.className = 'status success';
+                    statusDiv.textContent = '✅ Connection Successful! Database is ready.';
+                }
+            } catch (err) {
+                log('❌ Connection error: ' + err.message);
+                statusDiv.className = 'status error';
+                statusDiv.textContent = '❌ Connection Error: ' + err.message;
+            }
+        }
+
+        // Test Visitor Tracking
+        async function testVisitorTracking() {
+            log('📊 Testing visitor tracking...');
+            const resultDiv = document.getElementById('visitorResult');
+            resultDiv.innerHTML = '<p style="color: #666;">⏳ Testing...</p>';
+
+            try {
+                const { data, error } = await supabase
+                    .from('visitors')
+                    .insert([
+                        {
+                            page: '/test-page',
+                            timestamp: new Date().toISOString()
+                        }
+                    ])
+                    .select();
+
+                if (error) {
+                    log('❌ Visitor insert failed: ' + error.message);
+                    resultDiv.innerHTML = `<div class="status error">❌ Error: ${error.message}</div>`;
+                } else {
+                    log('✅ Visitor tracked successfully!');
+                    resultDiv.innerHTML = `<div class="status success">✅ Visitor tracked! ID: ${data[0].id}</div>`;
+                }
+            } catch (err) {
+                log('❌ Visitor tracking error: ' + err.message);
+                resultDiv.innerHTML = `<div class="status error">❌ Error: ${err.message}</div>`;
+            }
+        }
+
+        // View Visitors
+        async function testViewVisitors() {
+            log('👀 Fetching visitors...');
+            const resultDiv = document.getElementById('visitorResult');
+
+            try {
+                const { data, error } = await supabase
+                    .from('visitors')
+                    .select('*')
+                    .order('timestamp', { ascending: false })
+                    .limit(10);
+
+                if (error) {
+                    log('❌ Failed to fetch visitors: ' + error.message);
+                    resultDiv.innerHTML = `<div class="status error">❌ Error: ${error.message}</div>`;
+                } else {
+                    log(`✅ Found ${data.length} visitors`);
+                    let html = `<div class="data-display"><h4>Recent Visitors (${data.length}):</h4>`;
+                    data.forEach(visitor => {
+                        html += `<div class="data-item">
+                            <strong>ID:</strong> ${visitor.id} | 
+                            <strong>Page:</strong> ${visitor.page} | 
+                            <strong>Time:</strong> ${new Date(visitor.timestamp).toLocaleString()}
+                        </div>`;
+                    });
+                    html += '</div>';
+                    resultDiv.innerHTML = html;
+                }
+            } catch (err) {
+                log('❌ Error: ' + err.message);
+                resultDiv.innerHTML = `<div class="status error">❌ Error: ${err.message}</div>`;
+            }
+        }
+
+        // Test Insert Order
+        async function testInsertOrder() {
+            log('🛒 Testing order insertion...');
+            const resultDiv = document.getElementById('orderResult');
+            resultDiv.innerHTML = '<p style="color: #666;">⏳ Testing...</p>';
+
+            const testOrder = {
+                product: 'ZAYN - T-shirt Oversize Premium',
+                gender: 'Homme',
+                color: 'Blanc',
+                size: 'M',
+                quantity: 1,
+                customer_name: 'Test User',
+                customer_phone: '12345678',
+                customer_address: 'Test Address',
+                customer_city: 'Tunis',
+                product_price: 49,
+                shipping: 7,
+                total: 56,
+                is_promo: false,
+                promo_type: 'none',
+                timestamp: new Date().toISOString(),
+                status: 'pending'
+            };
+
+            try {
+                const { data, error } = await supabase
+                    .from('orders')
+                    .insert([testOrder])
+                    .select();
+
+                if (error) {
+                    log('❌ Order insert failed: ' + error.message);
+                    resultDiv.innerHTML = `<div class="status error">❌ Error: ${error.message}</div>`;
+                } else {
+                    log('✅ Order created successfully! ID: ' + data[0].id);
+                    resultDiv.innerHTML = `<div class="status success">✅ Order created! ID: ${data[0].id}<br>Total: ${data[0].total} DT</div>`;
+                }
+            } catch (err) {
+                log('❌ Order error: ' + err.message);
+                resultDiv.innerHTML = `<div class="status error">❌ Error: ${err.message}</div>`;
+            }
+        }
+
+        // View Orders
+        async function testViewOrders() {
+            log('👀 Fetching orders...');
+            const resultDiv = document.getElementById('orderResult');
+
+            try {
+                const { data, error } = await supabase
+                    .from('orders')
+                    .select('*')
+                    .order('timestamp', { ascending: false })
+                    .limit(10);
+
+                if (error) {
+                    log('❌ Failed to fetch orders: ' + error.message);
+                    resultDiv.innerHTML = `<div class="status error">❌ Error: ${error.message}</div>`;
+                } else {
+                    log(`✅ Found ${data.length} orders`);
+                    let html = `<div class="data-display"><h4>Recent Orders (${data.length}):</h4>`;
+                    data.forEach(order => {
+                        html += `<div class="data-item">
+                            <strong>#${order.id}</strong> | 
+                            <strong>Customer:</strong> ${order.customer_name} | 
+                            <strong>Product:</strong> ${order.product} | 
+                            <strong>Total:</strong> ${order.total} DT | 
+                            <strong>Status:</strong> ${order.status} | 
+                            <strong>Date:</strong> ${new Date(order.timestamp).toLocaleString()}
+                        </div>`;
+                    });
+                    html += '</div>';
+                    resultDiv.innerHTML = html;
+                }
+            } catch (err) {
+                log('❌ Error: ' + err.message);
+                resultDiv.innerHTML = `<div class="status error">❌ Error: ${err.message}</div>`;
+            }
+        }
+
+        // Auto-test connection on load
+        window.addEventListener('load', () => {
+            setTimeout(testConnection, 500);
+        });
+    </script>
+</body>
+</html>
