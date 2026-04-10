@@ -539,49 +539,6 @@
         .refresh-btn:active {
             transform: translateY(0);
         }
-
-        /* Order Details Modal */
-        .order-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(4px);
-        }
-
-        .order-modal.active {
-            display: flex;
-        }
-
-        .order-modal-content {
-            background: white;
-            border-radius: 16px;
-            max-width: 600px;
-            width: 90%;
-            max-height: 85vh;
-            overflow-y: auto;
-            padding: 2rem;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            animation: modalSlideIn 0.3s ease;
-        }
-
-        @keyframes modalSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-30px) scale(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-        }
-
     </style>
 </head>
 <body class="bg-base-200 font-[Inter]">
@@ -662,10 +619,10 @@
     </div>
 
     <!-- Order Detail Modal -->
-    <div class="order-modal" id="orderModal">
-        <div class="order-modal-content">
+    <div class="modal" id="orderModal">
+        <div class="modal-content">
             <div class="modal-header">
-                <h2>📋 Détails de la Commande</h2>
+                <h2>Détails de la Commande</h2>
                 <button class="close-btn" onclick="closeModal()">&times;</button>
             </div>
             <div id="orderDetails"></div>
@@ -678,7 +635,7 @@
     <script>
         // Initialize Supabase
         const SUPABASE_URL = 'https://odpbwvelzzapcvfnzyic.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9kcGJ3dmVselphcGN2Zm56eWljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2NDY3NjIsImV4cCI6MjA5MTIyMjc2Mn0.21EHos2R_yH-2S8T_wd-t_ytqV_VlZBfNlX-IiE1B9Q';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9kcGJ3dmVsenphcGN2Zm56eWljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2NDY3NjIsImV4cCI6MjA5MTIyMjc2Mn0.21EHos2R_yH-2S8T_wd-t_ytqV_VlZBfNlX-IiE1B9Q';
         
         // Check if supabase client already exists
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -936,13 +893,11 @@
 
             document.getElementById('orderDetails').innerHTML = detailsHTML;
             document.getElementById('orderModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
         }
 
         // Close Modal
         function closeModal() {
             document.getElementById('orderModal').classList.remove('active');
-            document.body.style.overflow = 'auto';
         }
 
         // Filter Orders
@@ -977,13 +932,6 @@
                 closeModal();
             }
         }
-
-        // Close modal on ESC key
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                closeModal();
-            }
-        });
 
         // Load orders on page load
         loadOrders();
