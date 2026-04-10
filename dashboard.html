@@ -539,6 +539,49 @@
         .refresh-btn:active {
             transform: translateY(0);
         }
+
+        /* Order Details Modal */
+        .order-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(4px);
+        }
+
+        .order-modal.active {
+            display: flex;
+        }
+
+        .order-modal-content {
+            background: white;
+            border-radius: 16px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
     </style>
 </head>
 <body class="bg-base-200 font-[Inter]">
@@ -619,25 +662,15 @@
     </div>
 
     <!-- Order Detail Modal -->
-    <dialog id="orderModal" class="modal modal-bottom sm:modal-middle">
-        <div class="modal-box max-w-2xl">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="font-bold text-2xl">📦 Détails de la Commande</h3>
-                <form method="dialog">
-                    <button class="btn btn-sm btn-circle btn-ghost">✕</button>
-                </form>
+    <div class="order-modal" id="orderModal">
+        <div class="order-modal-content">
+            <div class="modal-header">
+                <h2>📋 Détails de la Commande</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
             </div>
-            <div id="orderDetails" class="space-y-4"></div>
-            <div class="modal-action">
-                <form method="dialog">
-                    <button class="btn btn-primary">Fermer</button>
-                </form>
-            </div>
+            <div id="orderDetails"></div>
         </div>
-        <form method="dialog" class="modal-backdrop">
-            <button>close</button>
-        </form>
-    </dialog>
+    </div>
 
     <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -743,13 +776,7 @@
                         </select>
                     </td>
                     <td>
-                        <button class="btn btn-sm btn-primary" onclick="viewOrderDetails(${order.id})">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                            </svg>
-                            Voir Détails
-                        </button>
+                        <button class="action-btn view-btn" onclick="viewOrderDetails(${order.id})">Voir</button>
                     </td>
                 `;
                 tbody.appendChild(row);
@@ -857,128 +884,65 @@
                 minute: '2-digit'
             });
 
-            const statusColors = {
-                'pending': 'warning',
-                'confirmed': 'success',
-                'canceled': 'error',
-                'return': 'info'
-            };
-
             const detailsHTML = `
-                <div class="grid grid-cols-1 gap-4">
-                    <div class="card bg-base-100 shadow-sm">
-                        <div class="card-body p-4">
-                            <h4 class="text-sm font-semibold text-base-content/60 uppercase tracking-wider mb-2">Informations Générales</h4>
-                            <div class="grid grid-cols-2 gap-3">
-                                <div>
-                                    <p class="text-xs text-base-content/60">Numéro</p>
-                                    <p class="font-bold text-lg">#${order.id}</p>
-                                </div>
-                                <div>
-                                    <p class="text-xs text-base-content/60">Date</p>
-                                    <p class="font-semibold">${date}</p>
-                                </div>
-                                <div>
-                                    <p class="text-xs text-base-content/60">Statut</p>
-                                    <div class="badge badge-${statusColors[order.status] || 'warning'} gap-1 mt-1">
-                                        ${getStatusText(order.status)}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card bg-base-100 shadow-sm">
-                        <div class="card-body p-4">
-                            <h4 class="text-sm font-semibold text-base-content/60 uppercase tracking-wider mb-2">👤 Informations Client</h4>
-                            <div class="space-y-2">
-                                <div class="flex justify-between">
-                                    <span class="text-base-content/60">Nom:</span>
-                                    <span class="font-semibold">${order.customer_name}</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-base-content/60">Téléphone:</span>
-                                    <span class="font-semibold">${order.customer_phone}</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-base-content/60">Adresse:</span>
-                                    <span class="font-semibold text-right max-w-[60%]">${order.customer_address}</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-base-content/60">Ville:</span>
-                                    <span class="font-semibold">${order.customer_city}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card bg-base-100 shadow-sm">
-                        <div class="card-body p-4">
-                            <h4 class="text-sm font-semibold text-base-content/60 uppercase tracking-wider mb-2">👕 Détails du Produit</h4>
-                            <div class="space-y-2">
-                                <div class="flex justify-between">
-                                    <span class="text-base-content/60">Produit:</span>
-                                    <span class="font-semibold">${order.product}</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-base-content/60">Genre:</span>
-                                    <span class="font-semibold">${order.gender}</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-base-content/60">Couleur:</span>
-                                    <span class="font-semibold">${order.color}</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-base-content/60">Taille:</span>
-                                    <span class="font-semibold">${order.size}</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-base-content/60">Quantité:</span>
-                                    <span class="font-semibold">${order.quantity}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card bg-primary text-primary-content shadow-sm">
-                        <div class="card-body p-4">
-                            <h4 class="text-sm font-semibold text-primary-content/80 uppercase tracking-wider mb-2">💰 Récapitulatif Financier</h4>
-                            <div class="space-y-2">
-                                <div class="flex justify-between">
-                                    <span class="text-primary-content/80">Prix du produit:</span>
-                                    <span class="font-semibold">${order.product_price} DT</span>
-                                </div>
-                                <div class="flex justify-between">
-                                    <span class="text-primary-content/80">Livraison:</span>
-                                    <span class="font-semibold">${order.shipping} DT</span>
-                                </div>
-                                <div class="divider my-2 before:bg-primary-content/20 after:bg-primary-content/20"></div>
-                                <div class="flex justify-between text-xl font-bold">
-                                    <span>Total:</span>
-                                    <span>${order.total} DT</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    ${order.is_promo ? `
-                    <div class="card bg-accent text-accent-content shadow-sm">
-                        <div class="card-body p-4">
-                            <h4 class="text-sm font-semibold text-accent-content/80 uppercase tracking-wider mb-2">🎁 Promotion</h4>
-                            <p class="font-semibold">${order.promo_type}</p>
-                        </div>
-                    </div>
-                    ` : ''}
+                <div class="order-detail">
+                    <div class="detail-label">Numéro de Commande</div>
+                    <div class="detail-value">#${order.id}</div>
                 </div>
+                <div class="order-detail">
+                    <div class="detail-label">Date</div>
+                    <div class="detail-value">${date}</div>
+                </div>
+                <div class="order-detail">
+                    <div class="detail-label">Statut</div>
+                    <div class="detail-value">${getStatusText(order.status)}</div>
+                </div>
+                <div class="order-detail">
+                    <div class="detail-label">Informations Client</div>
+                    <div class="detail-value">
+                        <strong>Nom:</strong> ${order.customer_name}<br>
+                        <strong>Téléphone:</strong> ${order.customer_phone}<br>
+                        <strong>Adresse:</strong> ${order.customer_address}<br>
+                        <strong>Ville:</strong> ${order.customer_city}
+                    </div>
+                </div>
+                <div class="order-detail">
+                    <div class="detail-label">Détails du Produit</div>
+                    <div class="detail-value">
+                        <strong>Produit:</strong> ${order.product}<br>
+                        <strong>Genre:</strong> ${order.gender}<br>
+                        <strong>Couleur:</strong> ${order.color}<br>
+                        <strong>Taille:</strong> ${order.size}<br>
+                        <strong>Quantité:</strong> ${order.quantity}
+                    </div>
+                </div>
+                <div class="order-detail">
+                    <div class="detail-label">Récapitulatif Financier</div>
+                    <div class="detail-value">
+                        <strong>Prix du produit:</strong> ${order.product_price} DT<br>
+                        <strong>Livraison:</strong> ${order.shipping} DT<br>
+                        <strong>Total:</strong> <span style="font-size: 1.2rem; font-weight: 700;">${order.total} DT</span>
+                    </div>
+                </div>
+                ${order.is_promo ? `
+                <div class="order-detail">
+                    <div class="detail-label">Promotion</div>
+                    <div class="detail-value">
+                        <strong>Type:</strong> ${order.promo_type}
+                    </div>
+                </div>
+                ` : ''}
             `;
 
             document.getElementById('orderDetails').innerHTML = detailsHTML;
-            document.getElementById('orderModal').showModal();
+            document.getElementById('orderModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
 
-        // Close Modal (now using native dialog)
+        // Close Modal
         function closeModal() {
-            document.getElementById('orderModal').close();
+            document.getElementById('orderModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
         }
 
         // Filter Orders
@@ -1013,6 +977,13 @@
                 closeModal();
             }
         }
+
+        // Close modal on ESC key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
 
         // Load orders on page load
         loadOrders();
