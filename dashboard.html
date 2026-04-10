@@ -27,7 +27,19 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- DaisyUI -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.10.5/dist/full.min.css" rel="stylesheet" type="text/css" />
+    
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- ApexCharts -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     
     <style>
         * {
@@ -529,26 +541,30 @@
         }
     </style>
 </head>
-<body>
+<body class="bg-base-200 font-[Inter]">
     <!-- Header -->
-    <header class="header">
-        <h1>ZAYN - Dashboard Admin</h1>
-        <div class="stats">
-            <div class="stat-item">
-                <div class="stat-value" id="totalOrders">0</div>
-                <div class="stat-label">Total Commandes</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value" id="pendingOrders">0</div>
-                <div class="stat-label">En attente</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value" id="confirmedOrders">0</div>
-                <div class="stat-label">Confirmées</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value" id="totalRevenue">0 DT</div>
-                <div class="stat-label">Revenu Total</div>
+    <header class="bg-gradient-to-r from-primary to-secondary text-white shadow-xl">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col lg:flex-row justify-between items-center gap-4">
+                <h1 class="text-3xl font-bold tracking-wider">🛍️ ZAYN - Dashboard Admin</h1>
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 w-full lg:w-auto">
+                    <div class="stat bg-white/10 backdrop-blur-sm rounded-xl text-white">
+                        <div class="stat-value text-2xl" id="totalOrders">0</div>
+                        <div class="stat-desc text-white/80 uppercase tracking-wider text-xs">Total Commandes</div>
+                    </div>
+                    <div class="stat bg-white/10 backdrop-blur-sm rounded-xl text-warning">
+                        <div class="stat-value text-2xl" id="pendingOrders">0</div>
+                        <div class="stat-desc text-white/80 uppercase tracking-wider text-xs">En attente</div>
+                    </div>
+                    <div class="stat bg-white/10 backdrop-blur-sm rounded-xl text-success">
+                        <div class="stat-value text-2xl" id="confirmedOrders">0</div>
+                        <div class="stat-desc text-white/80 uppercase tracking-wider text-xs">Confirmées</div>
+                    </div>
+                    <div class="stat bg-white/10 backdrop-blur-sm rounded-xl text-info">
+                        <div class="stat-value text-2xl" id="totalRevenue">0 DT</div>
+                        <div class="stat-desc text-white/80 uppercase tracking-wider text-xs">Revenu Total</div>
+                    </div>
+                </div>
             </div>
         </div>
     </header>
